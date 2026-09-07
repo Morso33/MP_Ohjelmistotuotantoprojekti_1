@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.example.TemperatureConverterTest" time="0.267" tests="35" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="26"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\tomwl\OneDrive\Työpöytä\AmirDirinClass1\OTP1_inclass1_assignment_TomLaukkanen\target\test-classes;C:\Users\tomwl\OneDrive\Työpöytä\AmirDirinClass1\OTP1_inclass1_assignment_TomLaukkanen\target\classes;C:\Users\tomwl\.m2\repository\org\junit\jupiter\junit-jupiter\5.11.3\junit-jupiter-5.11.3.jar;C:\Users\tomwl\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\tomwl\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\tomwl\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\tomwl\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\tomwl\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\tomwl\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\tomwl\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Europe/Helsinki"/>
+    <property name="user.country.format" value="FI"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="26"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-26.0.2.1\bin"/>
+    <property name="sun.java.command" value="C:\Users\tomwl\AppData\Local\Temp\surefire9205045619817988867\surefirebooter-20260907141348667_3.jar C:\Users\tomwl\AppData\Local\Temp\surefire9205045619817988867 2026-09-07T14-13-48_547-jvmRun1 surefire-20260907141348667_1tmp surefire_0-20260907141348667_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\tomwl\OneDrive\Työpöytä\AmirDirinClass1\OTP1_inclass1_assignment_TomLaukkanen\target\test-classes;C:\Users\tomwl\OneDrive\Työpöytä\AmirDirinClass1\OTP1_inclass1_assignment_TomLaukkanen\target\classes;C:\Users\tomwl\.m2\repository\org\junit\jupiter\junit-jupiter\5.11.3\junit-jupiter-5.11.3.jar;C:\Users\tomwl\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\tomwl\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\tomwl\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\tomwl\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\tomwl\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\tomwl\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\tomwl\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\tomwl"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-08-18"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-26.0.2.1"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\tomwl\OneDrive\Työpöytä\AmirDirinClass1\OTP1_inclass1_assignment_TomLaukkanen"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\tomwl\AppData\Local\Temp\surefire9205045619817988867\surefirebooter-20260907141348667_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="26.0.2.1+1-7"/>
+    <property name="user.name" value="tomwl"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\tomwl\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\tomwl\AppData\Local\Temp\"/>
+    <property name="java.version" value="26.0.2.1"/>
+    <property name="user.dir" value="C:\Users\tomwl\OneDrive\Työpöytä\AmirDirinClass1\OTP1_inclass1_assignment_TomLaukkanen"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-26.0.2.1\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Users\tomwl\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\tomwl\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.3\bin\x64;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.3\bin;C:\Program Files (x86)\VMware\VMware Player\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Python39\Scripts;C:\Python39;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\ProgramData\chocolatey\bin;C:\Program Files\PuTTY;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\cmd;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files\dotnet;C:\Program Files (x86)\Eziriz\.NET Reactor;C:\Users\tomwl\AppData\Roaming\evilcheats;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\Cloudflare\Cloudflare WARP;C:\Program Files\CMake\bin;C:\Program Files\nodejs;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files\NVIDIA Corporation\Nsight Compute 2026.2.1;C:\Users\tomwl\AppData\Local\Programs\Python\Python312\Scripts;C:\Users\tomwl\AppData\Local\Programs\Python\Python312;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\tomwl\AppData\Local\Microsoft\WindowsApps;C:\Users\tomwl\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\tomwl\AppData\Local\GitHubDesktop\bin;C:\Users\tomwl\.dotnet\tools;C:\Users\tomwl\AppData\Local\Programs\Fiddler;C:\Users\tomwl\.dotnet\tools;C:\Users\tomwl\AppData\Roaming\npm;C:\Users\tomwl\AppData\Local\Programs\Python\Python312;C:\Program Files\nodejs;C:\Python39;C:\Python30;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Users\tomwl\.local\bin;C:\Users\tomwl\bin;C:\Users\tomwl\AppData\Roaming\Claude\local-agent-mode-sessions\skills-plugin\f7c0dfbe-c3c2-4e1c-8ba2-a3582b426c3b\85a7836e-9a4c-4fbf-88cb-a733ef0594e6\bin;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="26.0.2.1+1-7"/>
+    <property name="stdin.encoding" value="Cp1252"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="70.0"/>
+  </properties>
+  <testcase name="isExtremeTemperature_boundariesAreInclusive" classname="com.example.TemperatureConverterTest" time="0.034"/>
+  <testcase name="isExtremeTemperature_justPastBoundaries" classname="com.example.TemperatureConverterTest" time="0.003"/>
+  <testcase name="isExtremeTemperature_insideRange" classname="com.example.TemperatureConverterTest" time="0.002"/>
+  <testcase name="fahrenheitToCelsius_boilingPoint" classname="com.example.TemperatureConverterTest" time="0.005"/>
+  <testcase name="fahrenheitToCelsius_freezingPoint" classname="com.example.TemperatureConverterTest" time="0.0"/>
+  <testcase name="isExtremeTemperature_edgeCases(double, boolean)[1]" classname="com.example.TemperatureConverterTest" time="0.032"/>
+  <testcase name="isExtremeTemperature_edgeCases(double, boolean)[2]" classname="com.example.TemperatureConverterTest" time="0.002"/>
+  <testcase name="isExtremeTemperature_edgeCases(double, boolean)[3]" classname="com.example.TemperatureConverterTest" time="0.002"/>
+  <testcase name="isExtremeTemperature_edgeCases(double, boolean)[4]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="isExtremeTemperature_edgeCases(double, boolean)[5]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="isExtremeTemperature_edgeCases(double, boolean)[6]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="isExtremeTemperature_edgeCases(double, boolean)[7]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="isExtremeTemperature_edgeCases(double, boolean)[8]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="celsiusToFahrenheit_boilingPoint" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="fahrenheitToCelsius_scalesMeetAtMinus40" classname="com.example.TemperatureConverterTest" time="0.002"/>
+  <testcase name="celsiusToFahrenheit_multipleInputs(double, double)[1]" classname="com.example.TemperatureConverterTest" time="0.003"/>
+  <testcase name="celsiusToFahrenheit_multipleInputs(double, double)[2]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="celsiusToFahrenheit_multipleInputs(double, double)[3]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="celsiusToFahrenheit_multipleInputs(double, double)[4]" classname="com.example.TemperatureConverterTest" time="0.0"/>
+  <testcase name="celsiusToFahrenheit_multipleInputs(double, double)[5]" classname="com.example.TemperatureConverterTest" time="0.0"/>
+  <testcase name="celsiusToFahrenheit_multipleInputs(double, double)[6]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="celsiusToFahrenheit_freezingPoint" classname="com.example.TemperatureConverterTest" time="0.002"/>
+  <testcase name="fahrenheitToCelsius_multipleInputs(double, double)[1]" classname="com.example.TemperatureConverterTest" time="0.002"/>
+  <testcase name="fahrenheitToCelsius_multipleInputs(double, double)[2]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="fahrenheitToCelsius_multipleInputs(double, double)[3]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="fahrenheitToCelsius_multipleInputs(double, double)[4]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="fahrenheitToCelsius_multipleInputs(double, double)[5]" classname="com.example.TemperatureConverterTest" time="0.002"/>
+  <testcase name="fahrenheitToCelsius_multipleInputs(double, double)[6]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="isExtremeTemperature_outsideRange" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="conversionsAreInverseOfEachOther(double)[1]" classname="com.example.TemperatureConverterTest" time="0.003"/>
+  <testcase name="conversionsAreInverseOfEachOther(double)[2]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="conversionsAreInverseOfEachOther(double)[3]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="conversionsAreInverseOfEachOther(double)[4]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="conversionsAreInverseOfEachOther(double)[5]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+  <testcase name="conversionsAreInverseOfEachOther(double)[6]" classname="com.example.TemperatureConverterTest" time="0.001"/>
+</testsuite>
