@@ -1,0 +1,82 @@
+pipeline {
+    agent any
+
+    environment {
+        // The Maven project lives in a subfolder of the Git repository
+        PROJECT_DIR = 'OTP1_inclass1_assignment_TomLaukkanen'
+
+        // Jenkins credential (Username with password) holding the Docker Hub login
+        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
+        // Docker Hub repository to push to: <docker-hub-username>/<image-name>
+        DOCKERHUB_REPO = 'morso33/temperature-converter'
+        DOCKER_IMAGE_TAG = 'latest'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Morso33/MP_Ohjelmistotuotantoprojekti_1.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir("${PROJECT_DIR}") {
+                    bat 'mvnw.cmd -B clean install' // sh './mvnw ...' on Linux and macOS
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir("${PROJECT_DIR}") {
+                    bat 'mvnw.cmd -B test'
+                }
+            }
+        }
+
+        stage('Code Coverage') {
+            steps {
+                dir("${PROJECT_DIR}") {
+                    bat 'mvnw.cmd -B jacoco:report'
+                }
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                junit "${PROJECT_DIR}/target/surefire-reports/*.xml"
+            }
+        }
+
+        stage('Publish Coverage Report') {
+            steps {
+                jacoco(
+                    execPattern: "${PROJECT_DIR}/target/jacoco.exec",
+                    classPattern: "${PROJECT_DIR}/target/classes",
+                    sourcePattern: "${PROJECT_DIR}/src/main/java"
+                )
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir("${PROJECT_DIR}") {
+                    bat "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} ."
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS_ID}",
+                                                  usernameVariable: 'DOCKER_USER',
+                                                  passwordVariable: 'DOCKER_PASS')]) {
+                    bat 'echo %DOCKER_PASS%| docker login -u %DOCKER_USER% --password-stdin'
+                    bat "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
+                    bat 'docker logout'
+                }
+            }
+        }
+    }
+}
