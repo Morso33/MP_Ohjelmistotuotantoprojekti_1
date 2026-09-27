@@ -5,8 +5,6 @@ pipeline {
         // The Maven project lives in a subfolder of the Git repository
         PROJECT_DIR = 'OTP1_inclass1_assignment_TomLaukkanen'
 
-        // Jenkins credential (Username with password) holding the Docker Hub login
-        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         // Docker Hub repository to push to: <docker-hub-username>/<image-name>
         DOCKERHUB_REPO = 'tomlaukkanen/temperature-converter'
         DOCKER_IMAGE_TAG = 'latest'
@@ -69,18 +67,9 @@ pipeline {
 
         stage('Push Docker Image to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS_ID}",
-                                                  usernameVariable: 'DOCKER_USER',
-                                                  passwordVariable: 'DOCKER_PASS')]) {
-                    // Docker Hub rejects usernames with capitals ("malformed HTTP Authorization header"),
-                    // so log in with the lowercase form of the stored username
-                    powershell '''
-                        $env:DOCKER_PASS.Trim() | docker login -u $env:DOCKER_USER.Trim().ToLower() --password-stdin
-                        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-                    '''
-                    bat "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
-                    bat 'docker logout'
-                }
+                // Jenkins runs as the same Windows user as Docker Desktop, so the push
+                // uses Docker Desktop's existing Docker Hub sign-in
+                bat "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
             }
         }
     }
