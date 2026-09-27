@@ -22,7 +22,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir("${PROJECT_DIR}") {
-                    bat 'mvnw.cmd -B clean install' // sh './mvnw ...' on Linux and macOS
+                    bat '.\\mvnw.cmd -B clean install' // sh './mvnw ...' on Linux and macOS
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
         stage('Test') {
             steps {
                 dir("${PROJECT_DIR}") {
-                    bat 'mvnw.cmd -B test'
+                    bat '.\\mvnw.cmd -B test'
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
         stage('Code Coverage') {
             steps {
                 dir("${PROJECT_DIR}") {
-                    bat 'mvnw.cmd -B jacoco:report'
+                    bat '.\\mvnw.cmd -B jacoco:report'
                 }
             }
         }
