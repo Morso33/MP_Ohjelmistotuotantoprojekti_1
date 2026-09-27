@@ -8,7 +8,7 @@ pipeline {
         // Jenkins credential (Username with password) holding the Docker Hub login
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         // Docker Hub repository to push to: <docker-hub-username>/<image-name>
-        DOCKERHUB_REPO = 'morso33/temperature-converter'
+        DOCKERHUB_REPO = 'tomlaukkanen/temperature-converter'
         DOCKER_IMAGE_TAG = 'latest'
     }
 
