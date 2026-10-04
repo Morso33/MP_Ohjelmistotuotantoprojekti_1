@@ -6,7 +6,7 @@ pipeline {
         PROJECT_DIR = 'OTP1_inclass1_assignment_TomLaukkanen'
 
         // Docker Hub repository to push to: <docker-hub-username>/<image-name>
-        DOCKERHUB_REPO = 'tomlaukkanen/temperature-converter'
+        DOCKERHUB_REPO = 'tomlaukkanen/temperature-converter-javafx'
         DOCKER_IMAGE_TAG = 'latest'
     }
 
@@ -28,6 +28,7 @@ pipeline {
         stage('Test') {
             steps {
                 dir("${PROJECT_DIR}") {
+                    // The DAO tests use an in-memory H2 database, so no MariaDB is needed here
                     bat '.\\mvnw.cmd -B test'
                 }
             }
@@ -60,7 +61,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir("${PROJECT_DIR}") {
-                    bat "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} ."
+                    bat "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} -t ${DOCKERHUB_REPO}:${BUILD_NUMBER} ."
                 }
             }
         }
@@ -70,6 +71,7 @@ pipeline {
                 // Jenkins runs as the same Windows user as Docker Desktop, so the push
                 // uses Docker Desktop's existing Docker Hub sign-in
                 bat "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
+                bat "docker push ${DOCKERHUB_REPO}:${BUILD_NUMBER}"
             }
         }
     }

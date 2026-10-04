@@ -9,18 +9,19 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TemperatureConverterTest {
+class TempCalculatorTest {
 
     /** Tolerance for comparing doubles. Taken from StackOverflow: https://stackoverflow.com/questions/19280468/good-tolerance-for-double-comparison */
     private static final double DELTA = 0.0001;
 
-    private TemperatureConverter converter;
+    private TempCalculator converter;
 
     @BeforeEach
     void setUp() {
-        converter = new TemperatureConverter();
+        converter = new TempCalculator();
     }
 
     // ---------- fahrenheitToCelsius ----------
@@ -192,5 +193,95 @@ class TemperatureConverterTest {
     })
     void isExtremeTemperature_edgeCases(double celsius, boolean expected) {
         assertEquals(expected, converter.isExtremeTemperature(celsius));
+    }
+
+    // ---------- celsiusToKelvin ----------
+
+    @ParameterizedTest(name = "{0} C -> {1} K")
+    @CsvSource({
+            "-273.15, 0.0",
+            "0,       273.15",
+            "26.85,   300.0",
+            "100,     373.15"
+    })
+    void celsiusToKelvin_multipleInputs(double celsius, double expectedKelvin) {
+        assertEquals(expectedKelvin, converter.celsiusToKelvin(celsius), DELTA);
+    }
+
+    // ---------- convert ----------
+
+    @ParameterizedTest(name = "{0} {1} -> {3} {2}")
+    @CsvSource({
+            "100,     C, F, 212.0",
+            "100,     C, K, 373.15",
+            "100,     C, C, 100.0",
+            "212,     F, C, 100.0",
+            "32,      F, K, 273.15",
+            "-459.67, F, K, 0.0",
+            "98.6,    F, F, 98.6",
+            "300,     K, C, 26.85",
+            "0,       K, F, -459.67",
+            "373.15,  K, K, 373.15"
+    })
+    void convert_everyPairOfUnits(double value, String from, String to, double expected) {
+        assertEquals(expected, converter.convert(value, from, to), DELTA);
+    }
+
+    @Test
+    @DisplayName("Converting there and back gives the original value")
+    void convert_roundTrip() {
+        double kelvin = converter.convert(-12.5, "F", "K");
+        assertEquals(-12.5, converter.convert(kelvin, "K", "F"), DELTA);
+    }
+
+    @Test
+    @DisplayName("An unknown unit code is rejected")
+    void convert_unknownUnit() {
+        IllegalArgumentException fromError = assertThrows(IllegalArgumentException.class,
+                () -> converter.convert(1, "X", "C"));
+        assertEquals("Unknown temperature unit: X", fromError.getMessage());
+        assertThrows(IllegalArgumentException.class, () -> converter.convert(1, "C", "R"));
+    }
+
+    // ---------- isBelowAbsoluteZero ----------
+
+    @ParameterizedTest(name = "{0} {1} below absolute zero? {2}")
+    @CsvSource({
+            "-273.15, C, false",
+            "-273.16, C, true",
+            "-459.67, F, false",
+            "-460,    F, true",
+            "0,       K, false",
+            "-0.01,   K, true",
+            "20,      C, false"
+    })
+    void isBelowAbsoluteZero_edgeCases(double value, String code, boolean expected) {
+        assertEquals(expected, converter.isBelowAbsoluteZero(value, code));
+    }
+
+    // ---------- parseTemperature ----------
+
+    @ParameterizedTest(name = "\"{0}\" -> {1}")
+    @CsvSource({
+            "'21.5',    21.5",
+            "'37,5',    37.5",
+            "'  -40  ', -40.0",
+            "'1e2',     100.0"
+    })
+    void parseTemperature_validText(String text, double expected) {
+        assertEquals(expected, converter.parseTemperature(text), DELTA);
+    }
+
+    @ParameterizedTest(name = "\"{0}\" is rejected")
+    @ValueSource(strings = {"", "   ", "hot", "12abc", "NaN", "Infinity", "-Infinity"})
+    void parseTemperature_invalidText(String text) {
+        assertThrows(NumberFormatException.class, () -> converter.parseTemperature(text));
+    }
+
+    @Test
+    @DisplayName("Missing text is rejected with a helpful message")
+    void parseTemperature_null() {
+        NumberFormatException e = assertThrows(NumberFormatException.class, () -> converter.parseTemperature(null));
+        assertEquals("Enter a temperature", e.getMessage());
     }
 }
