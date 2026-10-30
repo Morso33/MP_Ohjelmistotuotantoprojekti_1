@@ -1,0 +1,140 @@
+# Runs the localized Temperature Converter in minikube:
+#   minikube start
+#   kubectl apply -f k8s/temperature-converter.yaml
+#   kubectl get pods -w
+#
+# - mariadb:               the database, with a volume so the saved conversions survive restarts
+# - temperature-converter: the JavaFX app from Docker Hub. It has no web page: it opens its window
+#                          on the X server (Xming) of the Windows host, so start Xming first with
+#                          "No Access Control" (XLaunch) or "Xming :0 -multiwindow -ac".
+#
+# Remove everything with: kubectl delete -f k8s/temperature-converter.yaml
+
+# Database passwords. A demo value: change it before using this anywhere real.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: temperature-converter-db
+type: Opaque
+stringData:
+  root-password: root_pw
+  password: temp_app_pw
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  labels:
+    app: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:11.4
+          ports:
+            - containerPort: 3306
+          env:
+            # The image creates this database and user on its first start
+            - name: MARIADB_DATABASE
+              value: temperature_converter
+            - name: MARIADB_USER
+              value: temp_app
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: temperature-converter-db
+                  key: password
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: temperature-converter-db
+                  key: root-password
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mariadb-data
+---
+# Gives the database the name "mariadb" inside the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+spec:
+  selector:
+    app: mariadb
+  ports:
+    - port: 3306
+      targetPort: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperature-converter
+  labels:
+    app: temperature-converter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperature-converter
+  template:
+    metadata:
+      labels:
+        app: temperature-converter
+    spec:
+      # The app creates its tables on start, so it waits until the database accepts connections
+      initContainers:
+        - name: wait-for-mariadb
+          image: busybox:1.36
+          command: ["sh", "-c", "until nc -z mariadb 3306; do echo waiting for mariadb; sleep 2; done"]
+      containers:
+        - name: temperature-converter
+          image: tomlaukkanen/temperature-converter-javafx-i18n:latest
+          # Pulled from Docker Hub unless already loaded with "minikube image load"
+          imagePullPolicy: IfNotPresent
+          env:
+            # host.minikube.internal is the Windows host, where Xming draws the window
+            - name: DISPLAY
+              value: host.minikube.internal:0.0
+            - name: DB_URL
+              value: jdbc:mariadb://mariadb:3306/temperature_converter
+            - name: DB_USER
+              value: temp_app
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: temperature-converter-db
+                  key: password
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 250m
+            limits:
+              memory: 768Mi

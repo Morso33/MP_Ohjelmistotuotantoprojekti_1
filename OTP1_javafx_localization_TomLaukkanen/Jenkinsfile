@@ -1,0 +1,80 @@
+pipeline {
+    agent any
+
+    environment {
+        // The Maven project lives in a subfolder of the Git repository
+        PROJECT_DIR = 'OTP1_javafx_localization_TomLaukkanen'
+
+        // Docker Hub repository to push to: <docker-hub-username>/<image-name>
+        DOCKERHUB_REPO = 'tomlaukkanen/temperature-converter-javafx-i18n'
+        DOCKER_IMAGE_TAG = 'latest'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Morso33/MP_Ohjelmistotuotantoprojekti_1.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir("${PROJECT_DIR}") {
+                    bat '.\\mvnw.cmd -B clean compile' // sh './mvnw ...' on Linux and macOS
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir("${PROJECT_DIR}") {
+                    // The database tests use an in-memory H2 database, so no MariaDB is needed here.
+                    // The window tests need a desktop, which the Windows Jenkins agent has.
+                    bat '.\\mvnw.cmd -B test'
+                }
+            }
+        }
+
+        stage('Code Coverage') {
+            steps {
+                dir("${PROJECT_DIR}") {
+                    // Writes the JaCoCo report and fails the build if the core logic is not tested
+                    bat '.\\mvnw.cmd -B jacoco:report jacoco:check@coverage-check'
+                }
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                junit "${PROJECT_DIR}/target/surefire-reports/*.xml"
+            }
+        }
+
+        stage('Publish Coverage Report') {
+            steps {
+                jacoco(
+                    execPattern: "${PROJECT_DIR}/target/jacoco.exec",
+                    classPattern: "${PROJECT_DIR}/target/classes",
+                    sourcePattern: "${PROJECT_DIR}/src/main/java"
+                )
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir("${PROJECT_DIR}") {
+                    bat "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} -t ${DOCKERHUB_REPO}:${BUILD_NUMBER} ."
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                // Jenkins runs as the same Windows user as Docker Desktop, so the push
+                // uses Docker Desktop's existing Docker Hub sign-in
+                bat "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
+                bat "docker push ${DOCKERHUB_REPO}:${BUILD_NUMBER}"
+            }
+        }
+    }
+}
