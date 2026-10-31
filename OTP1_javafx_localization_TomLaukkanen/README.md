@@ -1,5 +1,13 @@
 Tom Laukkanen – Ohjelmistotuotantoprojekti 1, JavaFX localization assignment
 
+## Submission
+
+| Deliverable | Link |
+|-------------|------|
+| GitHub repository | https://github.com/Morso33/MP_Ohjelmistotuotantoprojekti_1 (folder `OTP1_javafx_localization_TomLaukkanen`) |
+| Docker Hub image  | https://hub.docker.com/r/tomlaukkanen/temperature-converter-javafx-i18n |
+| Screenshots (Xming, minikube, Jenkins, Docker Hub) | [`img/javafx_localization/`](../img/javafx_localization/) and [section 6](#6-screenshots) |
+
 ## 1. Assignment Description
 
 Turn the localized Temperature Converter into a JavaFX application that saves its conversions to a
@@ -40,7 +48,7 @@ it in minikube.
 
 ### The window
 
-![App running from the Docker image in Xming](../img/javafx_localization/1_app_running_in_xming.png)
+![App running from the Docker image in Xming](../img/javafx_localization/1_xming_english.png)
 
 The window is described in `main-view.fxml`. Every text in it is a resource key such as
 `text="%button.convert"`, which the `FXMLLoader` fills in from the resource bundle it is given.
@@ -227,6 +235,10 @@ Push Docker Image to Docker Hub (tags `latest` and the build number). The agent 
 and JaCoCo plugins, a desktop session for the window tests, and Docker Desktop signed in to
 Docker Hub as the user that runs Jenkins.
 
+Job `Tom_Laukkanen_Temperature_i18n_pipeline`, build #1 (2026-10-31): **SUCCESS** in 3 min,
+201 tests passed, JaCoCo 98 % instructions / 97 % branches, image pushed to Docker Hub as
+`tomlaukkanen/temperature-converter-javafx-i18n:latest` and `:1`.
+
 ### Kubernetes (minikube)
 
 `k8s/temperature-converter.yaml` runs MariaDB (with a persistent volume and a Service named
@@ -243,3 +255,33 @@ kubectl logs deployment/temperature-converter
 Start Xming with *No Access Control* first, as above. To try a locally built image without Docker
 Hub: `minikube image load tomlaukkanen/temperature-converter-javafx-i18n:latest`. Remove everything
 with `kubectl delete -f k8s/temperature-converter.yaml`.
+
+Tested 2026-10-31 with minikube v1.39.0 (Kubernetes v1.37.0, Docker driver): both pods run, the
+app pulls the image from Docker Hub, waits for MariaDB, creates its tables in the cluster's
+database (`jdbc:mariadb://mariadb:3306/temperature_converter`) and its window opens in Xming.
+
+## 6. Screenshots
+
+The window from the Docker image in Xming, in all five languages (the same conversions saved to
+MariaDB are listed in each language):
+
+| English | Suomi |
+|---------|-------|
+| ![English](../img/javafx_localization/1_xming_english.png) | ![Finnish](../img/javafx_localization/2_xming_finnish.png) |
+| **Svenska** | **日本語** |
+| ![Swedish](../img/javafx_localization/3_xming_swedish.png) | ![Japanese](../img/javafx_localization/4_xming_japanese.png) |
+| **العربية** (right to left) | |
+| ![Arabic](../img/javafx_localization/5_xming_arabic.png) | |
+
+minikube: the deployment, and the app's window from the pod in Xming:
+
+![kubectl](../img/javafx_localization/6_minikube_kubectl.png)
+![App from minikube in Xming](../img/javafx_localization/7_minikube_app_in_xming.png)
+
+Jenkins and Docker Hub:
+
+![Jenkins job](../img/javafx_localization/8_jenkins_job.png)
+![Jenkins build 1](../img/javafx_localization/9_jenkins_build_1.png)
+![Test results](../img/javafx_localization/10_jenkins_test_results.png)
+![JaCoCo report](../img/javafx_localization/11_jacoco_report.png)
+![Docker Hub tags](../img/javafx_localization/12_docker_hub_tags.png)
